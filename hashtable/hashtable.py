@@ -65,7 +65,7 @@ class HashTable:
         # Your code here
         hash = 5381
         for x in key:
-            hash = ((hash << 5) + hash) + ord(x)
+            hash = (hash * 33) + ord(x)
         return hash
 
     def hash_index(self, key):
@@ -95,6 +95,14 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        bucket = set(self.buckets)
+        k = self.hash_index(key)
+        if k in bucket:
+            del self.buckets[self.hash_index(key)]
+        else:
+            print("Key not found")
+
+        #
 
     def get(self, key):
         """
@@ -105,6 +113,12 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        bucket = set(self.buckets)
+        k = self.hash_index(key)
+        if k in bucket:
+            return self.buckets[self.hash_index(key)]
+        else:
+            print("Key not found")
 
     def resize(self, new_capacity):
         """
