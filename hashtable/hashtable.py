@@ -85,6 +85,15 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        bucket = self.buckets[self.hash_index(key)]
+
+        if bucket != []:
+            for k, v in bucket:
+                if k == key:
+                    print("key in use")
+                    bucket.remove((k, v))
+                    print("bucket removed")
+
         self.buckets[self.hash_index(key)].append((key, value))
 
     def delete(self, key):
