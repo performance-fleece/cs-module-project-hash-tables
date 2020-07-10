@@ -24,7 +24,7 @@ class HashTable:
     def __init__(self, capacity=MIN_CAPACITY):
         # Your code here
         self.capacity = capacity
-        self.buckets = [] * capacity
+        self.buckets = [[] for i in range(capacity)]
 
     def get_num_slots(self):
         """
@@ -37,7 +37,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        return self.capacity
+        return len(self.buckets)
 
     def get_load_factor(self):
         """
@@ -85,6 +85,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        self.buckets[self.hash_index(key)].append((key, value))
 
     def delete(self, key):
         """
@@ -95,12 +96,12 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        bucket = set(self.buckets)
-        k = self.hash_index(key)
-        if k in bucket:
-            del self.buckets[self.hash_index(key)]
-        else:
-            print("Key not found")
+        for k, v in self.buckets[self.hash_index(key)]:
+            if k == key:
+
+                self.buckets[self.hash_index(key)] = []
+            else:
+                print("Key not found")
 
         #
 
@@ -113,12 +114,11 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        bucket = set(self.buckets)
-        k = self.hash_index(key)
-        if k in bucket:
-            return self.buckets[self.hash_index(key)]
-        else:
-            print("Key not found")
+
+        for k, v in self.buckets[self.hash_index(key)]:
+            if k == key:
+                return v
+        return None
 
     def resize(self, new_capacity):
         """
