@@ -8,29 +8,72 @@ class HashTableEntry:
         self.value = value
         self.next = next
 
+    def get_key(self):
+        return self.key
+
+    def get_value(self):
+        return self.value
+
+    def set_value(self, value):
+        self.value = value
+
     def set_next(self, new_next):
         self.next = new_next
 
+    def __str__(self):
+        return f'{self.key}, {self.value}'
+
 
 class BucketList:
-    def __init__(self):
+    def __init__(self, count=0):
         self.head = None
+        self.count = count
+
+    def add_to_list(self, key, value):
+        # if empty add to head
+        hashEntry = HashTableEntry(key, value)
+        if self.head is None:
+            self.head = hashEntry
+
+        # if key present, update
+        if self.contains(key) is not None:
+            self.update(key, value)
+
+        # else, add to head
+        else:
+            self.add_to_head(key, value)
+
+    def update(self, key, value):
+        current = self.head
+        found = False
+        while current is not None:
+            if current.key == key:
+                current.set_value(value)
+                break
+
+            current = current.next
+
+        return found
 
     def add_to_head(self, key, value):
         hashEntry = HashTableEntry(key, value)
+        # bucket NOT empty
         if self.head is not None:
             hashEntry.set_next(self.head)
+        # bucket empty
         self.head = hashEntry
 
     def contains(self, key):
-        if not self.head:
-            return False
         current = self.head
-        while current:
+        found = None
+        while current is not None:
             if current.key == key:
-                return current.value
+                found = current.value
+                break
+
             current = current.next
-        return False
+
+        return found
 
     def deleteEntry(self, key):
         tempEntry = self.head
@@ -65,7 +108,7 @@ class HashTable:
     def __init__(self, capacity=MIN_CAPACITY):
         # Your code here
         self.capacity = capacity
-        self.buckets = [[] for i in range(capacity)]
+        self.buckets = [BucketList() for i in range(capacity)]
 
     def get_num_slots(self):
         """
@@ -128,14 +171,16 @@ class HashTable:
         # Your code here
         bucket = self.buckets[self.hash_index(key)]
 
-        if bucket != []:
-            for k, v in bucket:
-                if k == key:
-                    print("key in use")
-                    bucket.remove((k, v))
-                    print("bucket removed")
+        bucket.add_to_list(key, value)
 
-        self.buckets[self.hash_index(key)].append((key, value))
+        # if bucket != []:
+        #     for k, v in bucket:
+        #         if k == key:
+        #             print("key in use")
+        #             bucket.remove((k, v))
+        #             print("bucket removed")
+
+        # self.buckets[self.hash_index(key)].append((key, value))
 
     def delete(self, key):
         """
@@ -165,10 +210,12 @@ class HashTable:
         """
         # Your code here
 
-        for k, v in self.buckets[self.hash_index(key)]:
-            if k == key:
-                return v
-        return None
+        # for k, v in self.buckets[self.hash_index(key)]:
+        #     if k == key:
+        #         return v
+        # return None
+        value = self.buckets[self.hash_index(key)].contains(key)
+        return value
 
     def resize(self, new_capacity):
         """
