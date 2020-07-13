@@ -33,6 +33,7 @@ class BucketList:
         # if empty add to head
         hashEntry = HashTableEntry(key, value)
         if self.head is None:
+            self.count += 1
             self.head = hashEntry
 
         # if key present, update
@@ -42,6 +43,7 @@ class BucketList:
         # else, add to head
         else:
             self.add_to_head(key, value)
+            self.count += 1
 
     def update(self, key, value):
         current = self.head
@@ -79,7 +81,7 @@ class BucketList:
         tempEntry = self.head
         if self.head.key == key:
             self.head = self.head.next
-
+            self.count -= 1
             return ("head deleted")
 
         else:
@@ -88,6 +90,7 @@ class BucketList:
             while tempEntry.next is not None:
                 if tempEntry.next.key == key:
                     tempEntry.next = tempEntry.next.next
+                    self.count -= 1
                     return("deleted")
                 tempEntry = tempEntry.next
             return("Key not found")
