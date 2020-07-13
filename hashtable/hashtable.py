@@ -190,13 +190,15 @@ class HashTable:
 
         Implement this.
         """
+        bucket = self.buckets[self.hash_index(key)]
+        bucket.deleteEntry(key)
         # Your code here
-        for k in self.buckets[self.hash_index(key)]:
-            if k == key:
+        # for k in self.buckets[self.hash_index(key)]:
+        #     if k == key:
 
-                self.buckets[self.hash_index(key)] = []
-            else:
-                print("Key not found")
+        #         self.buckets[self.hash_index(key)] = []
+        #     else:
+        #         print("Key not found")
 
         #
 
