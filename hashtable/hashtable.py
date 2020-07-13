@@ -3,10 +3,55 @@ class HashTableEntry:
     Linked List hash table key/value pair
     """
 
-    def __init__(self, key, value):
+    def __init__(self, key=None, value=None, next=None):
         self.key = key
         self.value = value
-        self.next = None
+        self.next = next
+
+    def get_key(self):
+        return self.key
+
+    def get_value(self):
+        return self.value
+
+    def get_next(self):
+        return self.next
+
+    def set_next(self, new_next):
+        self.next = new_next
+
+    def delete(self):
+        if self.next:
+
+
+class BucketList:
+    def __init__(self):
+        self.head = None
+
+    def add_to_head(self, key, value):
+        hashEntry = HashTableEntry(key, value)
+        if self.head is not None:
+            hashEntry.set_next(self.head)
+        self.head = hashEntry
+
+    def contains(self, key):
+        if not self.head:
+            return False
+        current = self.head
+        while current:
+            if current.get_key() == = key:
+                return current.get_value()
+            current = current.get_next()
+        return False
+
+    def delete(self, key):
+        tempHead = self.head
+        if (tempHead is not None):
+            if tempHead.key == key:
+                break
+            prev = tempHead
+            tempHead = tempHead.next
+        if ()
 
 
 # Hash table can't have fewer than this many slots
@@ -105,7 +150,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        for k, v in self.buckets[self.hash_index(key)]:
+        for k in self.buckets[self.hash_index(key)]:
             if k == key:
 
                 self.buckets[self.hash_index(key)] = []
