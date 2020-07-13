@@ -8,12 +8,6 @@ class HashTableEntry:
         self.value = value
         self.next = next
 
-    def get_key(self):
-        return self.key
-
-    def get_value(self):
-        return self.value
-
     def set_value(self, value):
         self.value = value
 
@@ -176,15 +170,6 @@ class HashTable:
 
         bucket.add_to_list(key, value)
 
-        # if bucket != []:
-        #     for k, v in bucket:
-        #         if k == key:
-        #             print("key in use")
-        #             bucket.remove((k, v))
-        #             print("bucket removed")
-
-        # self.buckets[self.hash_index(key)].append((key, value))
-
     def delete(self, key):
         """
         Remove the value stored with the given key.
@@ -193,17 +178,9 @@ class HashTable:
 
         Implement this.
         """
+        # Your code here
         bucket = self.buckets[self.hash_index(key)]
         bucket.deleteEntry(key)
-        # Your code here
-        # for k in self.buckets[self.hash_index(key)]:
-        #     if k == key:
-
-        #         self.buckets[self.hash_index(key)] = []
-        #     else:
-        #         print("Key not found")
-
-        #
 
     def get(self, key):
         """
