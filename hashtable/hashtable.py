@@ -8,20 +8,8 @@ class HashTableEntry:
         self.value = value
         self.next = next
 
-    def get_key(self):
-        return self.key
-
-    def get_value(self):
-        return self.value
-
-    def get_next(self):
-        return self.next
-
     def set_next(self, new_next):
         self.next = new_next
-
-    def delete(self):
-        if self.next:
 
 
 class BucketList:
@@ -39,19 +27,27 @@ class BucketList:
             return False
         current = self.head
         while current:
-            if current.get_key() == = key:
-                return current.get_value()
-            current = current.get_next()
+            if current.key == key:
+                return current.value
+            current = current.next
         return False
 
-    def delete(self, key):
-        tempHead = self.head
-        if (tempHead is not None):
-            if tempHead.key == key:
-                break
-            prev = tempHead
-            tempHead = tempHead.next
-        if ()
+    def deleteEntry(self, key):
+        tempEntry = self.head
+        if self.head.key == key:
+            self.head = self.head.next
+
+            return ("head deleted")
+
+        else:
+            tempEntry = self.head
+
+            while tempEntry.next is not None:
+                if tempEntry.next.key == key:
+                    tempEntry.next = tempEntry.next.next
+                    return("deleted")
+                tempEntry = tempEntry.next
+            return("Key not found")
 
 
 # Hash table can't have fewer than this many slots
