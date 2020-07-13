@@ -127,6 +127,14 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        current_bucket = 0
+        total = 0
+
+        while current_bucket <= self.capacity - 1:
+            total = total + self.buckets[current_bucket].count
+            current_bucket += 1
+
+        return total % self.capacity
 
     def fnv1(self, key):
         """
@@ -207,6 +215,24 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # save old data
+        old_buckets = self.buckets
+        old_capacity = self.capacity
+        curr_bucket = 0
+
+        # set new capacity for re-entry
+        self.capacity = new_capacity
+        self.buckets = [BucketList() for i in range(new_capacity)]
+
+        # feed old data into new buckets
+        while curr_bucket <= old_capacity - 1:
+            resize_count = 0
+            tempEntry = old_buckets[curr_bucket].head
+            while resize_count <= old_buckets[curr_bucket].count - 1:
+                self.put(tempEntry.key, tempEntry.value)
+                tempEntry = tempEntry.next
+                resize_count += 1
+            curr_bucket += 1
 
 
 if __name__ == "__main__":
