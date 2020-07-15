@@ -134,7 +134,18 @@ class HashTable:
             total = total + self.buckets[current_bucket].count
             current_bucket += 1
 
-        return total % self.capacity
+        return total / self.capacity
+
+    def resize_test(self):
+        if self.get_load_factor() > 0.7:
+
+            print("load larger than 0.7, doubling capacity")
+            self.resize(self.capacity * 2)
+        elif self.get_load_factor() < 0.2:
+            print("load smaller than 0.2, halving capacity")
+            self.resize(self.capacity // 2)
+        else:
+            print(f"Current load factor {float(self.get_load_factor())}")
 
     def fnv1(self, key):
         """
@@ -177,6 +188,8 @@ class HashTable:
         bucket = self.buckets[self.hash_index(key)]
 
         bucket.add_to_list(key, value)
+        print(self.get_load_factor())
+        self.resize_test()
 
     def delete(self, key):
         """
@@ -189,6 +202,8 @@ class HashTable:
         # Your code here
         bucket = self.buckets[self.hash_index(key)]
         bucket.deleteEntry(key)
+        print(self.get_load_factor())
+        self.resize_test()
 
     def get(self, key):
         """
@@ -214,6 +229,7 @@ class HashTable:
 
         Implement this.
         """
+
         # Your code here
         # save old data
         old_buckets = self.buckets
@@ -229,7 +245,8 @@ class HashTable:
             resize_count = 0
             tempEntry = old_buckets[curr_bucket].head
             while resize_count <= old_buckets[curr_bucket].count - 1:
-                self.put(tempEntry.key, tempEntry.value)
+                bucket = self.buckets[self.hash_index(tempEntry.key)]
+                bucket.add_to_list(tempEntry.key, tempEntry.value)
                 tempEntry = tempEntry.next
                 resize_count += 1
             curr_bucket += 1
