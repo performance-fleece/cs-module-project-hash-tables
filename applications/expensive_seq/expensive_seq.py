@@ -1,9 +1,20 @@
 # Your code here
+found_results = dict()
 
 
 def expensive_seq(x, y, z):
     # Your code here
-
+    if (x, y, z) in found_results:
+        return found_results[(x, y, z)]
+    else:
+        result = 0
+        if x <= 0:
+            result = y + z
+        if x > 0:
+            result = expensive_seq(x-1, y+1, z) + expensive_seq(x-2,
+                                                                y+2, z*2) + expensive_seq(x-3, y+3, z*3)
+        found_results[(x, y, z)] = result
+        return result
 
 
 if __name__ == "__main__":
